@@ -183,6 +183,10 @@ class_info = {
     'Khuôn mặt vuông': {
         'description': 'Những người có khuôn mặt này thường khá mạnh mẽ - cả về thể chất cũng như tình cảm. Tuy nhiên, hãy đảm bảo rằng bạn tiếp tục nuôi dưỡng những điểm mạnh của mình, nếu không chúng sẽ chỉ ở mức bề nổi trong tương lai.',
         'careers': ['Xây dựng và Bất động sản', 'Thể thao và Thể dục', 'Kinh doanh và Quản lý']
+    },
+    'No face detected': {
+        'description': '',
+        'careers': ['']
     }
 }
 # Định nghĩa giao diện Streamlit
