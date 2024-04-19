@@ -84,74 +84,7 @@ def predict_from_image(image):
         return "No face detected."
 
 
-# Định nghĩa chức năng dự đoán qua webcam
-def predict_from_webcam():
-    predicted_labels = []
 
-    # Mở webcam
-    cap = cv2.VideoCapture(0)
-
-    # Thời gian chạy webcam (10 giây)
-    end_time = time.time() + 5
-
-    while time.time() < end_time:
-        # Đọc frame từ webcam
-        ret, frame = cap.read()
-
-        # Chuyển đổi frame sang ảnh grayscale
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Nhận diện khuôn mặt trong frame
-        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-
-        # Vẽ hình chữ nhật xung quanh các khuôn mặt và thực hiện dự đoán
-        if len(faces)>0:
-            try:
-                for (x, y, w, h) in faces:
-                    # Vẽ hình chữ nhật xung quanh khuôn mặt
-                    cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-
-                    # Chụp ảnh khuôn mặt và chuyển đổi thành tensor
-                    face_img = frame[y:y + h, x:x + w]
-                    pil_img = Image.fromarray(cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB))
-                    input_image = transform(pil_img).unsqueeze(0)
-                    with torch.no_grad():
-                        output = model(input_image)
-
-                    # Lấy chỉ số có giá trị lớn nhất là nhãn dự đoán
-                    predicted_class_idx = torch.argmax(output).item()
-                    train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật/Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
-                    # Lấy tên của nhãn dự đoán từ tập dữ liệu
-                    predicted_label = train_dataset[predicted_class_idx]
-                    cv2.putText(frame, predicted_label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
-                    # Lưu nhãn dự đoán vào danh sách
-
-
-                    predicted_labels.append(predicted_label)
-            except:
-                predicted_labels.append("No face detected")
-        else:
-            predicted_labels.append("No face detected")
-
-        # Hiển thị frame
-        cv2.imshow('Face Detection', frame)
-        # st.image(frame, channels="BGR", use_column_width=True)
-
-        # Nhấn 'q' để thoát khỏi vòng lặp
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    # Đóng webcam và cửa sổ
-    cap.release()
-    cv2.destroyAllWindows()
-
-    # Đếm số lần xuất hiện của mỗi nhãn dự đoán
-    label_counts = Counter(predicted_labels)
-
-    # Lấy nhãn có số lần xuất hiện nhiều nhất
-    most_common_label = label_counts.most_common(1)[0][0]
-
-    return most_common_label
 
 class_info = {
     'Khuôn mặt trái xoan': {
