@@ -11,7 +11,7 @@ from collections import Counter
 import numpy as np
 import time
 # Load lại mô hình đã được huấn luyện
-model_path = r"D:\Final1\boi\Facial crop\face_shape_classifier.pth"
+model_path = r"face_shape_classifier.pth"
 train_dataset = {0: 'Heart', 1: 'Oblong', 2: 'Oval', 3: 'Round', 4: 'Square'}
 
 class MyNormalize(object):
