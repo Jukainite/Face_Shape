@@ -139,21 +139,21 @@ def main():
 
     webrtc_ctx = webrtc_streamer(key="example", video_processor_factory=VideoTransformer)
 
-    if webrtc_ctx.video_transformer:
-        predicted_label=None
-        while predicted_label is None:
-          predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
+    # if webrtc_ctx.video_transformer:
+    #     predicted_label=None
+    #     while predicted_label is None:
+    #       predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
 
-        st.subheader("Hình Dạng Khuôn mặt:")
-        st.markdown(
-            f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
-            unsafe_allow_html=True)
+    #     st.subheader("Hình Dạng Khuôn mặt:")
+    #     st.markdown(
+    #         f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
+    #         unsafe_allow_html=True)
 
-        st.markdown('**Ngành Nghề Phù Hợp:**')
-        for career in class_info[predicted_label]['careers']:
-            st.markdown(f"- {career}")
-        st.markdown('**Đặc điểm tính cách:**')
-        st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
+    #     st.markdown('**Ngành Nghề Phù Hợp:**')
+    #     for career in class_info[predicted_label]['careers']:
+    #         st.markdown(f"- {career}")
+    #     st.markdown('**Đặc điểm tính cách:**')
+    #     st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
 
 
 if __name__ == "__main__":
