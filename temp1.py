@@ -137,9 +137,9 @@ class_info = {
 def main():
     st.title("Face Shape Prediction")
 
-    webrtc_ctx = webrtc_streamer(key="example", video_processor_factory=VideoTransformer)
+    webrtc_ctx = webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
 
-    if webrtc_ctx.video_processor_factory:
+    if webrtc_ctx.video_transformer:
         predicted_label=None
         while predicted_label is None:
           predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
