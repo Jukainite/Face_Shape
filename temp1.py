@@ -50,6 +50,7 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 
 
 def predict_from_list(images):
+  try:
     predicted_labels = []
     for image in images:
         image_np = np.array(image)
@@ -70,8 +71,11 @@ def predict_from_list(images):
 
     label_counts = Counter(predicted_labels)
     most_common_label = label_counts.most_common(1)[0][0]
+  
 
     return most_common_label
+  except:
+    pass
 
 
 class VideoTransformer(VideoTransformerBase):
