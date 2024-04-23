@@ -126,6 +126,10 @@ class_info = {
     'No face detected': {
         'description': '',
         'careers': ['']
+    },
+  'None': {
+        'description': '',
+        'careers': ['']
     }
 }
 
