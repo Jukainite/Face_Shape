@@ -139,7 +139,7 @@ def main():
 
     webrtc_ctx = webrtc_streamer(key="example", video_processor_factory=VideoTransformer)
 
-    if webrtc_ctx.video_transformer:
+    if webrtc_ctx.video_processor_factory:
         predicted_label=None
         while predicted_label is None:
           predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
