@@ -6,7 +6,7 @@ from typing import Union
 import cv2
 import av
 import os
-from streamlit_webrtc import VideoProcessorBase, webrtc_streamer
+from streamlit_webrtc import VideoProcessorBase, webrtc_streamer, ClientSettings
 import torch
 import torch.nn as nn
 import torchvision
@@ -158,6 +158,10 @@ def predict_from_list(images):
 
     return most_common_label
 def main():
+    WEBRTC_CLIENT_SETTINGS = ClientSettings(
+        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+        media_stream_constraints={"video": True, "audio": False},
+    )
     class VideoTransformer(VideoProcessorBase):
 
         frame_lock: threading.Lock  # transform() is running in another thread, then a lock object is used here for thread-safety.
@@ -193,7 +197,7 @@ def main():
             return av.VideoFrame.from_ndarray(in_image, format="bgr24")
 
 
-    ctx = webrtc_streamer(key="snapshot", video_processor_factory=VideoTransformer)
+    ctx = webrtc_streamer(key="snapshot", client_settings=WEBRTC_CLIENT_SETTINGS,video_processor_factory=VideoTransformer)
 
     if ctx.video_transformer:
         if st.button("Predict"):
