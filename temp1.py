@@ -1,69 +1,3 @@
-# import streamlit as st
-# import numpy as np
-# from streamlit_webrtc import (
-#     ClientSettings,
-#     VideoTransformerBase,
-#     webrtc_streamer,
-#     WebRtcMode,
-# )
-# import mediapipe as mp
-# from typing import List  # Import module List
-# from typing import Union
-# import av
-# import threading
-# # Set client settings needed for Streamlit sharing
-# WEBRTC_CLIENT_SETTINGS = ClientSettings(
-#     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-#     media_stream_constraints={"video": True, "audio": False},
-# )
-#
-# # Define video transformer class
-# class VideoTransformer(VideoTransformerBase):
-#     frame_lock: threading.Lock  # `transform()` is running in another thread, then a lock object is used here for thread-safety.
-#     detected_faces: List[np.ndarray]
-#
-#     def __init__(self) -> None:
-#         self.frame_lock = threading.Lock()
-#         self.detected_faces = []
-#         self.mp_face_detection = mp.solutions.face_detection.FaceDetection(min_detection_confidence=0.5)
-#     def transform(self, frame: av.VideoFrame) -> np.ndarray:
-#         in_image = frame.to_ndarray(format="bgr24")
-#
-#         # Convert BGR image to RGB for Mediapipe
-#         rgb_image = cv2.cvtColor(in_image, cv2.COLOR_BGR2RGB)
-#
-#         # Perform face detection with Mediapipe
-#         results = self.mp_face_detection.process(rgb_image)
-#
-#         # Extract faces and append to detected_faces list
-#         detected_faces = []
-#         if results.detections:
-#             for detection in results.detections:
-#                 bboxC = detection.location_data.relative_bounding_box
-#                 ih, iw, _ = in_image.shape
-#                 st.write(bboxC)
-#                 x, y, w, h = int(bboxC.xmin * iw), int(bboxC.ymin * ih), int(bboxC.width * iw), int(bboxC.height * ih)
-#                 cv2.rectangle(in_image, (x, y), (x + w, y + h), (255, 0, 0), 2)
-#                 detected_faces.append(in_image[y:y + h, x:x + w])
-#
-#         with self.frame_lock:
-#             self.detected_faces = detected_faces
-#
-#         return in_image
-#
-# # Call the streamer
-# ctx = webrtc_streamer(key="snapshot",
-#                       mode=WebRtcMode.SENDRECV,
-#                       client_settings=WEBRTC_CLIENT_SETTINGS,
-#                       video_transformer_factory=VideoTransformer)
-#
-# # Apply logic - if detected 25 faces, display them on the Streamlit app
-# if ctx.video_transformer:
-#     if len(ctx.video_transformer.detected_faces) >= 25:
-#         detected_faces = ctx.video_transformer.detected_faces[:25]  # Get the first 25 faces
-#         # Display the detected faces on Streamlit
-#         for i, face in enumerate(detected_faces):
-#             st.image(face, caption=f"Face {i+1}")
 
 import streamlit as st
 from streamlit_webrtc import VideoTransformerBase, webrtc_streamer, ClientSettings
@@ -147,7 +81,7 @@ class VideoTransformer(VideoTransformerBase):
         self.frame_list = []
 
     def transform(self, frame):
-        if len(self.frame_list) >= 25:
+        if len(self.frame_list) >= 10:
             self.consumer.stop()
 
         img = frame.to_ndarray(format="bgr24")
@@ -159,8 +93,8 @@ class VideoTransformer(VideoTransformerBase):
             face = img[y:y + h, x:x + w]
             self.frame_list.append(face)
 
-        if len(self.frame_list) >= 10:
-            st.stop()
+        # if len(self.frame_list) >= 10:
+        #     st.stop()
 
         return img
 
@@ -201,21 +135,26 @@ def main():
 
     webrtc_ctx = webrtc_streamer(key="snapshot",
                           client_settings=WEBRTC_CLIENT_SETTINGS,
-                          video_processor_factory=VideoTransformer)
+                          video_processor_factory=VideoTransformer,
+                          )
 
-    if webrtc_ctx.video_transformer:
-        predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
+    if webrtc_ctx.video_processor:
+        if len(webrtc_ctx.video_transformer.frame_list):
+            if st.button('Predict:'):
 
-        st.subheader("Hình Dạng Khuôn mặt:")
-        st.markdown(
-            f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
-            unsafe_allow_html=True)
 
-        st.markdown('**Ngành Nghề Phù Hợp:**')
-        for career in class_info[predicted_label]['careers']:
-            st.markdown(f"- {career}")
-        st.markdown('**Đặc điểm tính cách:**')
-        st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
+                predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
+
+                st.subheader("Hình Dạng Khuôn mặt:")
+                st.markdown(
+                    f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
+                    unsafe_allow_html=True)
+
+                st.markdown('**Ngành Nghề Phù Hợp:**')
+                for career in class_info[predicted_label]['careers']:
+                    st.markdown(f"- {career}")
+                st.markdown('**Đặc điểm tính cách:**')
+                st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
 
 
 if __name__ == "__main__":
