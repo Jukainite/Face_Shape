@@ -81,7 +81,7 @@ class VideoTransformer(VideoTransformerBase):
         self.frame_list = []
 
     def transform(self, frame):
-        if len(self.frame_list) >= 10:
+        if len(self.frame_list) >= 11:
             self.consumer.stop()
 
         img = frame.to_ndarray(format="bgr24")
@@ -140,21 +140,21 @@ def main():
 
     if webrtc_ctx.video_processor:
         if len(webrtc_ctx.video_transformer.frame_list) >=10:
-            
+            if st.button('Predict:'):
 
 
-            predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
-
-            st.subheader("Hình Dạng Khuôn mặt:")
-            st.markdown(
-                f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
-                unsafe_allow_html=True)
-
-            st.markdown('**Ngành Nghề Phù Hợp:**')
-            for career in class_info[predicted_label]['careers']:
-                st.markdown(f"- {career}")
-            st.markdown('**Đặc điểm tính cách:**')
-            st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
+                predicted_label = predict_from_list(webrtc_ctx.video_transformer.frame_list)
+    
+                st.subheader("Hình Dạng Khuôn mặt:")
+                st.markdown(
+                    f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
+                    unsafe_allow_html=True)
+    
+                st.markdown('**Ngành Nghề Phù Hợp:**')
+                for career in class_info[predicted_label]['careers']:
+                    st.markdown(f"- {career}")
+                st.markdown('**Đặc điểm tính cách:**')
+                st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
 
 
 if __name__ == "__main__":
