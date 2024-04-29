@@ -78,7 +78,7 @@ import numpy as np
 import time
 
 # Load lại mô hình đã được huấn luyện
-model_path = rface_shape_classifier.pth"
+model_path = "face_shape_classifier.pth"
 train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật/Khuôn mặt dài',
                  2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
 
