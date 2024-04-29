@@ -158,6 +158,19 @@ def predict_from_list(images):
 
     return most_common_label
 def main():
+    # -------------Header Section------------------------------------------------
+
+    title = '<p style="text-align: center;font-size: 40px;font-weight: 550; "> Nhân Tướng Học Khuôn Mặt</p>'
+    st.markdown(title, unsafe_allow_html=True)
+
+    st.markdown(
+        "Luư Ý Khi sử dụng:"
+        "Bạn hãy mở camera và để app xác định khuôn mặt của bạn. Khi phát hiện ra nó sẽ khoanh vùng khuôn mặt "
+        "Khi khung xuất hiện hãy đợi 1 tí (khoảng 3s xuất hiện khung) rồi nhấn nút predict phía dưới")
+
+
+
+    # -------------Sidebar Section------------------------------------------------
     WEBRTC_CLIENT_SETTINGS = ClientSettings(
         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
         media_stream_constraints={"video": True, "audio": False},
