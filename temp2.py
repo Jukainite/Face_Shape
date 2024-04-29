@@ -165,8 +165,8 @@ def main():
 
     st.markdown(
         "Luư Ý Khi sử dụng:"
-        "Bạn hãy mở camera và để app xác định khuôn mặt của bạn. Khi phát hiện ra nó sẽ khoanh vùng khuôn mặt "
-        "Khi khung xuất hiện hãy đợi 1 tí (khoảng 3s xuất hiện khung) rồi nhấn nút predict phía dưới")
+        " Bạn hãy mở camera và để app xác định khuôn mặt của bạn. Khi phát hiện ra nó sẽ khoanh vùng khuôn mặt "
+        " Khi khung xuất hiện hãy đợi 1 tí (khoảng 3s xuất hiện khung) rồi nhấn nút predict phía dưới")
 
 
 
