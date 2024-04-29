@@ -139,7 +139,7 @@ def main():
                           )
 
     if webrtc_ctx.video_processor:
-        if len(webrtc_ctx.video_transformer.frame_list):
+        if len(webrtc_ctx.video_transformer.frame_list) >=10:
             
 
 
