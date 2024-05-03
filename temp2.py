@@ -32,7 +32,7 @@ def get_ice_servers():
     """
 
     # Ref: https://www.twilio.com/docs/stun-turn/api
-    
+    load_dotenv("twilio.env")
     try:
         account_sid = os.environ["TWILIO_ACCOUNT_SID"]
         auth_token = os.environ["TWILIO_AUTH_TOKEN"]
