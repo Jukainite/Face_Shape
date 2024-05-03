@@ -263,7 +263,7 @@ def main():
         key="snapshot",
         mode=WebRtcMode.SENDRECV,
         rtc_configuration={
-            "iceServers": get_ice_servers(),
+            "iceServers": [{"urls": ["stun:stun.awa-shima.com:3478"]}],
             "iceTransportPolicy": "relay",
         },
         media_stream_constraints=media_stream_constraints,
