@@ -14,6 +14,8 @@ jobs:
         run: |
           echo "TWILIO_ACCOUNT_SID='ACc4f7b8e2ac4c15f6ba35d671cc8af7e7'" > twilio.env
           echo "TWILIO_AUTH_TOKEN='8f0500d3d531fcd5a0ee80ab31b21926'" >> twilio.env
+          git config user.email "pkduy31@gmail.com"
+          git config user.name "Jukainite"
           echo "twilio.env" >> -f .gitignore
           git add twilio.env
           git commit -m "Add Twilio environment variables"
