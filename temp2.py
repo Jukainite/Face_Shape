@@ -263,7 +263,7 @@ def main():
         key="snapshot",
         mode=WebRtcMode.SENDRECV,
         rtc_configuration={
-            "iceServers": [{"urls": ["stun:stun.comtube.com:3478"]}],
+            "iceServers": [{"urls": ["stun:freestun.net:3479"]}],
             "iceTransportPolicy": "relay",
         },
         media_stream_constraints=media_stream_constraints,
