@@ -215,12 +215,9 @@ def main():
 
     media_stream_constraints = {"video": True, "audio": False}
     
-    ctx = webrtc_streamer(
-        key="snapshot",
-        rtc_configuration=rtc_configuration,
-        media_stream_constraints=media_stream_constraints,
-        video_processor_factory=VideoTransformer
-    )
+    ctx =webrtc_streamer(key="key", video_processor_factory=VideoTransformer,
+                        rtc_configuration=RTCConfiguration(
+                            {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}))
     if ctx.video_transformer:
         if st.button("Predict"):
             with ctx.video_transformer.frame_lock:
