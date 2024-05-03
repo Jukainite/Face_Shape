@@ -6,7 +6,7 @@ from typing import Union
 import cv2
 import av
 import os
-from streamlit_webrtc import VideoProcessorBase, webrtc_streamer, ClientSettings
+from streamlit_webrtc import VideoProcessorBase, webrtc_streamer, ClientSettings, RTCConfiguration
 import torch
 import torch.nn as nn
 import torchvision
