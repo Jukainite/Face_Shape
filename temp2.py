@@ -40,7 +40,7 @@ def get_ice_servers():
         logger.warning(
             "Twilio credentials are not set. Fallback to a free STUN server from Google."  # noqa: E501
         )
-        return [{"urls": ["stun:stun.l.google.com:19302"]}]
+        return [{"urls": ["stun:stun.flashdance.cx:3478"]}]
 
     client = Client(account_sid, auth_token)
 
@@ -50,7 +50,7 @@ def get_ice_servers():
         st.warning(
             f"Error occurred while accessing Twilio API. Fallback to a free STUN server from Google. ({e})"  # noqa: E501
         )
-        return [{"urls": ["stun:stun.l.google.com:19302"]}]
+        return [{"urls": ["stun:stun.flashdance.cx:3478"]}]
 
     return token.ice_servers
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
