@@ -217,7 +217,7 @@ def main():
     
     ctx = webrtc_streamer(
         key="snapshot",
-        # rtc_configuration=rtc_configuration,
+        rtc_configuration={"iceServers": get_ice_servers()},
         media_stream_constraints=media_stream_constraints,
         video_processor_factory=VideoTransformer
     )
