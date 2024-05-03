@@ -33,7 +33,7 @@ def get_ice_servers():
 
     # Ref: https://www.twilio.com/docs/stun-turn/api
     try:
-        account_sid = os.environ["ACc4f7b8e2ac4c15f6ba35d671cc8af7e7]
+        account_sid = os.environ["ACc4f7b8e2ac4c15f6ba35d671cc8af7e7"]
         auth_token = os.environ["8f0500d3d531fcd5a0ee80ab31b21926"]
     except KeyError:
         logger.warning(
