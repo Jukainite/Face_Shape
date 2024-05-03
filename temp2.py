@@ -33,7 +33,7 @@ def get_ice_servers():
 
     # Ref: https://www.twilio.com/docs/stun-turn/api
     # try:
-    env_file = os.getenv('GITHUB_ENV')
+    env_file = ".env"
 
     with open(env_file, "a") as myfile:
         myfile.write("TWILIO_ACCOUNT_SID=ACc4f7b8e2ac4c15f6ba35d671cc8af7e7\n")
