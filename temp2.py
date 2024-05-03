@@ -32,31 +32,24 @@ def get_ice_servers():
     """
 
     # Ref: https://www.twilio.com/docs/stun-turn/api
-    # try:
-    env_file = os.getenv('GITHUB_ENV')
-
-    with open(env_file, "a") as myfile:
-        myfile.write("TWILIO_ACCOUNT_SID=ACc4f7b8e2ac4c15f6ba35d671cc8af7e7\n")
-        myfile.write("TWILIO_AUTH_TOKEN=8f0500d3d531fcd5a0ee80ab31b21926")
-    load_dotenv(env_file)
-    account_sid = os.environ["TWILIO_ACCOUNT_SID"]
-    auth_token = os.environ["TWILIO_AUTH_TOKEN"]
-
-    # except KeyError:
-    #     logger.warning(
-    #         "Twilio credentials are not set. Fallback to a free STUN server from Google."  # noqa: E501
-    #     )
-    #     return [{"urls": ["stun:stun.l.google.com:19302"]}]
+    try:
+        account_sid = os.environ["TWILIO_ACCOUNT_SID"]
+        auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+    except KeyError:
+        logger.warning(
+            "Twilio credentials are not set. Fallback to a free STUN server from Google."  # noqa: E501
+        )
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
 
     client = Client(account_sid, auth_token)
 
-    # try:
-    token = client.tokens.create()
-    # except TwilioRestException as e:
-    #     st.warning(
-    #         f"Error occurred while accessing Twilio API. Fallback to a free STUN server from Google. ({e})"  # noqa: E501
-    #     )
-    #     return [{"urls": ["stun:stun.l.google.com:19302"]}]
+    try:
+        token = client.tokens.create()
+    except TwilioRestException as e:
+        st.warning(
+            f"Error occurred while accessing Twilio API. Fallback to a free STUN server from Google. ({e})"  # noqa: E501
+        )
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
 
     return token.ice_servers
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
