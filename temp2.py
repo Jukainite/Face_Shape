@@ -32,6 +32,7 @@ def get_ice_servers():
     """
 
     # Ref: https://www.twilio.com/docs/stun-turn/api
+    load_dotenv()
     env_file = os.getenv('GITHUB_ENV')
 
     with open(env_file, "a") as myfile:
