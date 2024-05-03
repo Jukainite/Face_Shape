@@ -15,8 +15,14 @@ from PIL import Image
 from collections import Counter
 import numpy as np
 import time
+import logging
+import os
+
+import streamlit as st
+from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 
+logger = logging.getLogger(__name__)
 def get_ice_servers():
     """Use Twilio's TURN server because Streamlit Community Cloud has changed
     its infrastructure and WebRTC connection cannot be established without TURN server now.  # noqa: E501
@@ -37,7 +43,13 @@ def get_ice_servers():
 
     client = Client(account_sid, auth_token)
 
-    token = client.tokens.create()
+    try:
+        token = client.tokens.create()
+    except TwilioRestException as e:
+        st.warning(
+            f"Error occurred while accessing Twilio API. Fallback to a free STUN server from Google. ({e})"  # noqa: E501
+        )
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
 
     return token.ice_servers
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -238,19 +250,21 @@ def main():
     # ctx = webrtc_streamer(key="snapshot", client_settings=WEBRTC_CLIENT_SETTINGS,video_processor_factory=VideoTransformer)
     # rtc_configuration = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
     # account_sid = os.environ['ACc4f7b8e2ac4c15f6ba35d671cc8af7e7']
-    account_sid = 'ACc4f7b8e2ac4c15f6ba35d671cc8af7e7'
-    # auth_token = os.environ['8f0500d3d531fcd5a0ee80ab31b21926']
-    auth_token = '8f0500d3d531fcd5a0ee80ab31b21926'
-    client = Client(account_sid, auth_token)
+    # account_sid = 'ACc4f7b8e2ac4c15f6ba35d671cc8af7e7'
+    # # auth_token = os.environ['8f0500d3d531fcd5a0ee80ab31b21926']
+    # auth_token = '8f0500d3d531fcd5a0ee80ab31b21926'
+    # client = Client(account_sid, auth_token)
     
-    token = client.tokens.create()
+    # token = client.tokens.create()
     media_stream_constraints = {"video": True, "audio": False}
     
     ctx = webrtc_streamer(
         key="snapshot",
+        mode=WebRtcMode.SENDRECV,
         rtc_configuration={
-      "iceServers": token.ice_servers
-          },
+            "iceServers": get_ice_servers(),
+            "iceTransportPolicy": "relay",
+        },
         media_stream_constraints=media_stream_constraints,
         video_processor_factory=VideoTransformer
     )
