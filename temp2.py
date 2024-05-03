@@ -17,7 +17,7 @@ import numpy as np
 import time
 import logging
 import os
-
+from dotenv import load_dotenv
 import streamlit as st
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
@@ -33,6 +33,7 @@ def get_ice_servers():
 
     # Ref: https://www.twilio.com/docs/stun-turn/api
     # try:
+    load_dotenv()
     account_sid = os.environ["TWILIO_ACCOUNT_SID"]
     auth_token = os.environ["TWILIO_AUTH_TOKEN"]
 
