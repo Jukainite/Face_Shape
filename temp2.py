@@ -22,8 +22,6 @@ import streamlit as st
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 
-logger = logging.getLogger(__name__)
-@st.cache_data
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
