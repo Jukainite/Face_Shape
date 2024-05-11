@@ -263,7 +263,8 @@ def main():
         key="snapshot",
         mode=WebRtcMode.SENDRECV,
         rtc_configuration={
-            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+            # "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+            "iceServers": get_ice_servers
             # "iceTransportPolicy": "public",
         },
         media_stream_constraints=media_stream_constraints,
