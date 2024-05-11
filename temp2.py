@@ -11,7 +11,7 @@ import torch
 import torch.nn as nn
 import torchvision
 from torchvision import transforms
-from PIL import Image
+from PIL import Image, ImageColor
 from collections import Counter
 import numpy as np
 import time
