@@ -1,0 +1,12 @@
+on:
+  workflow_dispatch:
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Twilio credentials
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+        run: |
+          # Use the Twilio credentials in your workflow
