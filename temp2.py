@@ -236,9 +236,9 @@ def main():
         async_processing=True,
         rtc_configuration={
             
-            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+            "iceServers": [{"urls": ["stun:stun.webcalldirect.com:3478"]}]
             # "iceServers": token.ice_servers
-            # "iceTransportPolicy": "public",
+            "iceTransportPolicy": "relay"
         },
         media_stream_constraints={"video": True, "audio": False},
         video_processor_factory=VideoTransformer
