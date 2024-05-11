@@ -291,7 +291,7 @@ def main():
                     
                     
                 st.image(img)
-                
+                st.image(face_img)
                 if len(faces) > 1:
                     st.success("Total of " + str(
                         len(faces)) + " faces detected inside the image. Try adjusting minimum object size if we missed anything")
