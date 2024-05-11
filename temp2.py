@@ -112,7 +112,7 @@ def predict_from_face_image(image):
     return predicted_label
   
 
-
+def main():
     # -------------Header Section------------------------------------------------
     # Haar-Cascade Parameters
     
