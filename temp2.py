@@ -267,7 +267,8 @@ def main():
             # Detect faces
             faces = face_cascade.detectMultiScale(gray, 1.1, minNeighbors=minimum_neighbors,
                                                   minSize=min_object_size)
-
+            max_area = 0
+            max_area_face = None
             if len(faces) == 0:
                 st.warning(
                     "No Face Detected in Image. Make sure your face is visible in the camera with proper lighting. "
@@ -276,10 +277,21 @@ def main():
                 # Draw rectangle around the faces
                 for (x, y, w, h) in faces:
                     cv2.rectangle(img, (x, y), (x + w, y + h), color=bbox_color, thickness=bbox_thickness)
-
+                    area = w * h
+                    if area > max_area:
+                        max_area = area
+                        max_area_face = (x, y, w, h)
                 # Display the output
+                if max_area_face is not None:
+                    # Lấy kích thước và vị trí của khuôn mặt lớn nhất
+                    x, y, w, h = max_area_face
+                    
+                    # Cắt ra hình ảnh của khuôn mặt lớn nhất từ hình ảnh gốc
+                    face_img = img[y:y+h, x:x+w]
+                    
+                    
                 st.image(img)
-
+                
                 if len(faces) > 1:
                     st.success("Total of " + str(
                         len(faces)) + " faces detected inside the image. Try adjusting minimum object size if we missed anything")
@@ -288,9 +300,9 @@ def main():
                         "Only 1 face detected inside the image. Try adjusting minimum object size if we missed anything")
 
                 # Download the image
-                img = Image.fromarray(img)
-                buffered = BytesIO()
-                img.save(buffered, format="JPEG")
+                # face_img = Image.fromarray(face_img)
+                # buffered = BytesIO()
+                # img.save(buffered, format="JPEG")
                 # Creating columns to center button
                 col1, col2, col3 = st.columns(3)
                 with col1:
@@ -298,11 +310,20 @@ def main():
                 with col3:
                     pass
                 with col2:
-                    st.download_button(
-                        label="Download image",
-                        data=buffered.getvalue(),
-                        file_name="output.png",
-                        mime="image/png")
+                    if st.button("Predict"):
+                       
+                        predicted_label = predict_from_img(face_img )
+                        st.subheader("Hình Dạng Khuôn mặt:")
+                        st.markdown(
+                            f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
+                            unsafe_allow_html=True)
+        
+                        st.markdown('**Ngành Nghề Phù Hợp:**')
+                        for career in class_info[predicted_label]['careers']:
+                            st.markdown(f"- {career}")
+                        st.markdown('**Đặc điểm tính cách:**')
+                        st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
+                        
 
     hide_streamlit_style = """
             <style>
