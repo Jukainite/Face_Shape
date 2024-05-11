@@ -293,8 +293,8 @@ def main():
             max_area_face = None
             if len(faces) == 0:
                 st.warning(
-                    "No Face Detected in Image. Make sure your face is visible in the camera with proper lighting. "
-                    "Also try adjusting detection parameters")
+                    "Không phát hiện thấy khuôn mặt nào trong ảnh. Đảm bảo khuôn mặt của bạn được nhìn thấy trong máy ảnh với ánh sáng thích hợp. "
+                    "Đồng thời thử điều chỉnh các thông số phát hiện!")
             else:
                 # Draw rectangle around the faces
                 for (x, y, w, h) in faces:
