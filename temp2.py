@@ -169,7 +169,7 @@ def main():
     # -------------Header Section------------------------------------------------
     # Haar-Cascade Parameters
     
-    minimum_neighbors = 4
+    minimum_neighbors = 3
     # Minimum possible object size
     min_object_size = (50, 50)
     # bounding box thickness
@@ -191,7 +191,7 @@ def main():
     
         min_size = st.slider(f"Mininum Object Size, Eg-{min_object_size} pixels ", min_value=3, max_value=500,
                              help="Kích thước đối tượng tối thiểu có thể. Các đối tượng nhỏ hơn sẽ bị bỏ qua",
-                             value=70)
+                             value=50)
     
         min_object_size = (min_size, min_size)
     
