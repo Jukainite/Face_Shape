@@ -205,7 +205,6 @@ def main():
     st.markdown(
         "Luư Ý Khi sử dụng:"
         " Bạn hãy mở camera và để app xác định khuôn mặt của bạn. Khi phát hiện ra nó sẽ khoanh vùng khuôn mặt. \n"
-        " Khi khung xuất hiện hãy đợi 1 tí (khoảng 3s xuất hiện khung) rồi nhấn nút predict phía dưới. \n"
         )
     st.warning("NOTE : Nếu khuôn mặt không được phát hiện, bạn có thể thử chụp hình lại nhiều lần")
 
@@ -248,42 +247,97 @@ def main():
                     if len(self.img_list) <=10:
                         self.img_list.append(face)
             return av.VideoFrame.from_ndarray(in_image, format="bgr24")
+    img_file_buffer = st.camera_input("Capture an Image from Webcam", disabled=False, key=1,
+                                      help="Make sure you have given webcam permission to the site")
 
+    if img_file_buffer is not None:
+
+        with st.spinner("Detecting faces ..."):
+            # To read image file buffer as a PIL Image:
+            img = Image.open(img_file_buffer)
+
+            # To convert PIL Image to numpy array:
+            img = np.array(img)
+
+            # Load the cascade
+            face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+            # Convert into grayscale
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            # Detect faces
+            faces = face_cascade.detectMultiScale(gray, 1.1, minNeighbors=minimum_neighbors,
+                                                  minSize=min_object_size)
+
+            if len(faces) == 0:
+                st.warning(
+                    "No Face Detected in Image. Make sure your face is visible in the camera with proper lighting. "
+                    "Also try adjusting detection parameters")
+            else:
+                # Draw rectangle around the faces
+                for (x, y, w, h) in faces:
+                    cv2.rectangle(img, (x, y), (x + w, y + h), color=bbox_color, thickness=bbox_thickness)
+
+                # Display the output
+                st.image(img)
+
+                if len(faces) > 1:
+                    st.success("Total of " + str(
+                        len(faces)) + " faces detected inside the image. Try adjusting minimum object size if we missed anything")
+                else:
+                    st.success(
+                        "Only 1 face detected inside the image. Try adjusting minimum object size if we missed anything")
+
+                # Download the image
+                img = Image.fromarray(img)
+                buffered = BytesIO()
+                img.save(buffered, format="JPEG")
+                # Creating columns to center button
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    pass
+                with col3:
+                    pass
+                with col2:
+                    st.download_button(
+                        label="Download image",
+                        data=buffered.getvalue(),
+                        file_name="output.png",
+                        mime="image/png")
 
 
     
-    ctx = webrtc_streamer(
-        key="snapshot",
-        mode=WebRtcMode.SENDRECV,
-        async_processing=True,
-        rtc_configuration={
+    # ctx = webrtc_streamer(
+    #     key="snapshot",
+    #     mode=WebRtcMode.SENDRECV,
+    #     async_processing=True,
+    #     rtc_configuration={
             
-            "iceServers": [{"urls": ["stun:stun.flashdance.cx:3478"]}],
-            # "iceServers": token.ice_servers
-            "iceTransportPolicy": "relay"
-        },
-        media_stream_constraints={"video": True, "audio": False},
-        video_processor_factory=VideoTransformer
-    )
-    if ctx.video_transformer:
-        if st.button("Predict"):
-            with ctx.video_transformer.frame_lock:
+    #         "iceServers": [{"urls": ["stun:stun.flashdance.cx:3478"]}],
+    #         # "iceServers": token.ice_servers
+    #         "iceTransportPolicy": "relay"
+    #     },
+    #     media_stream_constraints={"video": True, "audio": False},
+    #     video_processor_factory=VideoTransformer
+    # )
+    # if ctx.video_transformer:
+    #     if st.button("Predict"):
+    #         with ctx.video_transformer.frame_lock:
 
-                img_list = ctx.video_transformer.img_list
+    #             img_list = ctx.video_transformer.img_list
 
-            if img_list is not []:  # put in column form 5 images in a row
-                predicted_label = predict_from_list(img_list)
-                st.subheader("Hình Dạng Khuôn mặt:")
-                st.markdown(
-                    f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
-                    unsafe_allow_html=True)
+    #         if img_list is not []:  # put in column form 5 images in a row
+    #             predicted_label = predict_from_list(img_list)
+    #             st.subheader("Hình Dạng Khuôn mặt:")
+    #             st.markdown(
+    #                 f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
+    #                 unsafe_allow_html=True)
 
-                st.markdown('**Ngành Nghề Phù Hợp:**')
-                for career in class_info[predicted_label]['careers']:
-                    st.markdown(f"- {career}")
-                st.markdown('**Đặc điểm tính cách:**')
-                st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
-            else:
-                st.warning("No faces available yet. Press predict again")
+    #             st.markdown('**Ngành Nghề Phù Hợp:**')
+    #             for career in class_info[predicted_label]['careers']:
+    #                 st.markdown(f"- {career}")
+    #             st.markdown('**Đặc điểm tính cách:**')
+    #             st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
+    #         else:
+    #             st.warning("No faces available yet. Press predict again")
 if __name__ == "__main__":
     main()
