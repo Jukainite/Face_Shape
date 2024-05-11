@@ -304,7 +304,13 @@ def main():
                         file_name="output.png",
                         mime="image/png")
 
-
+    hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     
     # ctx = webrtc_streamer(
     #     key="snapshot",
