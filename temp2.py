@@ -233,12 +233,14 @@ def main():
     ctx = webrtc_streamer(
         key="snapshot",
         mode=WebRtcMode.SENDRECV,
+        async_processing=True,
         rtc_configuration={
+            
             # "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
             "iceServers": token.ice_servers
             # "iceTransportPolicy": "public",
         },
-        media_stream_constraints=media_stream_constraints,
+        media_stream_constraints={"video": True, "audio": False},
         video_processor_factory=VideoTransformer
     )
     if ctx.video_transformer:
