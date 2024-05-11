@@ -218,17 +218,7 @@ def main():
             return av.VideoFrame.from_ndarray(in_image, format="bgr24")
 
 
-    # ctx = webrtc_streamer(key="snapshot", client_settings=WEBRTC_CLIENT_SETTINGS,video_processor_factory=VideoTransformer)
-    # rtc_configuration = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-    # account_sid = os.environ['TWILIO_ACCOUNT_SID']
-    # auth_token = os.environ['TWILIO_AUTH_TOKEN']
-    account_sid = "ACc4f7b8e2ac4c15f6ba35d671cc8af7e7"
-    auth_token = "babca4df0eb28e054bf1585edd5419a5"
-    client = Client(account_sid, auth_token)
-    
-    token = client.tokens.create()
 
-    media_stream_constraints = {"video": True, "audio": False}
     
     ctx = webrtc_streamer(
         key="snapshot",
@@ -236,7 +226,7 @@ def main():
         async_processing=True,
         rtc_configuration={
             
-            "iceServers": [{"urls": ["stun:stun4.l.google.com:19302"]}],
+            "iceServers": [{"urls": ["stun:stun.flashdance.cx:3478"]}],
             # "iceServers": token.ice_servers
             "iceTransportPolicy": "relay"
         },
