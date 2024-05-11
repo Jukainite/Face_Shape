@@ -220,8 +220,10 @@ def main():
 
     # ctx = webrtc_streamer(key="snapshot", client_settings=WEBRTC_CLIENT_SETTINGS,video_processor_factory=VideoTransformer)
     # rtc_configuration = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-    account_sid = os.environ['TWILIO_ACCOUNT_SID']
-    auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    # account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    # auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    account_sid = "ACc4f7b8e2ac4c15f6ba35d671cc8af7e7"
+    auth_token = "babca4df0eb28e054bf1585edd5419a5"
     client = Client(account_sid, auth_token)
     
     token = client.tokens.create()
