@@ -23,6 +23,7 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 
 logger = logging.getLogger(__name__)
+@st.cache_data
 def get_ice_servers():
     """Use Twilio's TURN server because Streamlit Community Cloud has changed
     its infrastructure and WebRTC connection cannot be established without TURN server now.  # noqa: E501
@@ -32,7 +33,6 @@ def get_ice_servers():
     """
 
     # Ref: https://www.twilio.com/docs/stun-turn/api
-    load_dotenv("twilio.env")
     try:
         account_sid = os.environ["TWILIO_ACCOUNT_SID"]
         auth_token = os.environ["TWILIO_AUTH_TOKEN"]
@@ -40,17 +40,11 @@ def get_ice_servers():
         logger.warning(
             "Twilio credentials are not set. Fallback to a free STUN server from Google."  # noqa: E501
         )
-        return [{"urls": ["stun:stun.flashdance.cx:3478"]}]
+        return [{"urls": ["stun:stun.l.google.com:19302"]}]
 
     client = Client(account_sid, auth_token)
 
-    try:
-        token = client.tokens.create()
-    except TwilioRestException as e:
-        st.warning(
-            f"Error occurred while accessing Twilio API. Fallback to a free STUN server from Google. ({e})"  # noqa: E501
-        )
-        return [{"urls": ["stun:stun.flashdance.cx:3478"]}]
+    token = client.tokens.create()
 
     return token.ice_servers
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
