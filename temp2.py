@@ -321,30 +321,26 @@ def main():
                     st.success(
                         "Only 1 face detected inside the image. Try adjusting minimum object size if we missed anything")
 
-                # Download the image
-                # face_img = Image.fromarray(face_img)
-                # buffered = BytesIO()
-                # img.save(buffered, format="JPEG")
-                # Creating columns to center button
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    pass
-                with col3:
-                    pass
-                with col2:
-                    if st.button("Predict"):
-                       
-                        predicted_label = predict_from_face_image(face_img )
-                        st.subheader("Hình Dạng Khuôn mặt:")
-                        st.markdown(
-                            f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
-                            unsafe_allow_html=True)
-        
-                        st.markdown('**Ngành Nghề Phù Hợp:**')
-                        for career in class_info[predicted_label]['careers']:
-                            st.markdown(f"- {career}")
-                        st.markdown('**Đặc điểm tính cách:**')
-                        st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
+                
+                # col1, col2, col3 = st.columns(3)
+                # with col1:
+                #     pass
+                # with col3:
+                #     pass
+                # with col2:
+                if st.button("Predict"):
+                   
+                    predicted_label = predict_from_face_image(face_img )
+                    st.subheader("Hình Dạng Khuôn mặt:")
+                    st.markdown(
+                        f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
+                        unsafe_allow_html=True)
+    
+                    st.markdown('**Ngành Nghề Phù Hợp:**')
+                    for career in class_info[predicted_label]['careers']:
+                        st.markdown(f"- {career}")
+                    st.markdown('**Đặc điểm tính cách:**')
+                    st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
                         
 
     hide_streamlit_style = """
