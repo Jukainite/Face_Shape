@@ -170,7 +170,29 @@ def main():
 
     title = '<p style="text-align: center;font-size: 40px;font-weight: 550; "> Nhân Tướng Học Khuôn Mặt</p>'
     st.markdown(title, unsafe_allow_html=True)
+    # slider for choosing parameter values
+    minimum_neighbors = st.slider("Mininum Neighbors", min_value=0, max_value=10,
+                                  help="Parameter specifying how many neighbors each candidate "
+                                       "rectangle should have to retain it. This parameter will affect "
+                                       "the quality of the detected faces. Higher value results in less "
+                                       "detections but with higher quality.",
+                                  value=minimum_neighbors)
 
+    # slider for choosing parameter values
+
+    min_size = st.slider(f"Mininum Object Size, Eg-{min_object_size} pixels ", min_value=3, max_value=500,
+                         help="Minimum possible object size. Objects smaller than that are ignored.",
+                         value=70)
+
+    min_object_size = (min_size, min_size)
+
+    # Get bbox color and convert from hex to rgb
+    bbox_color = ImageColor.getcolor(str(st.color_picker(label="Bounding Box Color", value="#00FF00")), "RGB")
+
+    # ste bbox thickness
+    bbox_thickness = st.slider("Bounding Box Thickness", min_value=1, max_value=30,
+                               help="Sets the thickness of bounding boxes",
+                               value=bbox_thickness)
     st.markdown(
         "Luư Ý Khi sử dụng:"
         " Bạn hãy mở camera và để app xác định khuôn mặt của bạn. Khi phát hiện ra nó sẽ khoanh vùng khuôn mặt. "
