@@ -312,7 +312,7 @@ def main():
                 with col2:
                     if st.button("Predict"):
                        
-                        predicted_label = predict_from_img(face_img )
+                        predicted_label = predict_from_image(face_img )
                         st.subheader("Hình Dạng Khuôn mặt:")
                         st.markdown(
                             f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
