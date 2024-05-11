@@ -93,8 +93,8 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 # Định nghĩa hàm dự đoán qua ảnh
 def predict_from_image(image):
     # Chuyển ảnh sang grayscale nếu cần thiết
-    if image.mode != "RGB":
-        image = image.convert("RGB")
+    # if image.mode != "RGB":
+    #     image = image.convert("RGB")
 
     # Chuyển ảnh sang numpy array
     image_np = np.array(image)
@@ -312,7 +312,7 @@ def main():
                 with col2:
                     if st.button("Predict"):
                        
-                        predicted_label = predict_from_image(pil_image = Image.fromarray(face_img ))
+                        predicted_label = predict_from_image(face_img )
                         st.subheader("Hình Dạng Khuôn mặt:")
                         st.markdown(
                             f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
