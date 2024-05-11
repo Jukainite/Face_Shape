@@ -95,8 +95,8 @@ def predict_from_face_image(image):
     
    
     # Áp dụng biến đổi cho ảnh khuôn mặt
-
-    input_image = transform(image).unsqueeze(0)  # Thêm chiều batch (batch size = 1)
+    pil_image = Image.fromarray(image)
+    input_image = transform(pil_image).unsqueeze(0)  # Thêm chiều batch (batch size = 1)
 
     # Thực hiện dự đoán
     with torch.no_grad():
