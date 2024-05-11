@@ -276,7 +276,7 @@ def main():
             else:
                 # Draw rectangle around the faces
                 for (x, y, w, h) in faces:
-                    cv2.rectangle(img, (x, y), (x + w, y + h), color=bbox_color, thickness=bbox_thickness)
+                    # cv2.rectangle(img, (x, y), (x + w, y + h), color=bbox_color, thickness=bbox_thickness)
                     area = w * h
                     if area > max_area:
                         max_area = area
@@ -285,7 +285,7 @@ def main():
                 if max_area_face is not None:
                     # Lấy kích thước và vị trí của khuôn mặt lớn nhất
                     x, y, w, h = max_area_face
-                    
+                    cv2.rectangle(img, (x, y), (x + w, y + h), color=bbox_color, thickness=bbox_thickness)
                     # Cắt ra hình ảnh của khuôn mặt lớn nhất từ hình ảnh gốc
                     face_img = img[y:y+h, x:x+w]
                     
