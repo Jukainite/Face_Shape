@@ -167,7 +167,14 @@ def predict_from_list(images):
     return most_common_label
 def main():
     # -------------Header Section------------------------------------------------
-
+    # Haar-Cascade Parameters
+    minimum_neighbors = 4
+    # Minimum possible object size
+    min_object_size = (50, 50)
+    # bounding box thickness
+    bbox_thickness = 3
+    # bounding box color
+    bbox_color = (0, 255, 0)
     title = '<p style="text-align: center;font-size: 40px;font-weight: 550; "> Nhân Tướng Học Khuôn Mặt</p>'
     st.markdown(title, unsafe_allow_html=True)
     # slider for choosing parameter values
