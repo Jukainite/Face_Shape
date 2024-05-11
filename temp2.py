@@ -112,82 +112,7 @@ def predict_from_face_image(image):
     return predicted_label
   
 
-# Định nghĩa hàm dự đoán qua ảnh
-def predict_from_image(image):
-    # Chuyển ảnh sang grayscale nếu cần thiết
-    # if image.mode != "RGB":
-    #     image = image.convert("RGB")
 
-    # Chuyển ảnh sang numpy array
-    image_np = np.array(image)
-
-    # Chuyển ảnh sang grayscale để sử dụng mô hình nhận diện khuôn mặt
-    gray = cv2.cvtColor(image_np, cv2.COLOR_RGB2GRAY)
-
-    # Nhận diện khuôn mặt trong ảnh
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-
-    # Nếu tìm thấy khuôn mặt, lấy ảnh khuôn mặt và thực hiện dự đoán
-    if len(faces) > 0:
-        x, y, w, h = faces[0]  # Giả sử chỉ lấy khuôn mặt đầu tiên
-        face_img = image.crop((x, y, x + w, y + h))  # Cắt ảnh khuôn mặt từ ảnh gốc
-
-        # Áp dụng biến đổi cho ảnh khuôn mặt
-        input_image = transform(face_img).unsqueeze(0)  # Thêm chiều batch (batch size = 1)
-
-        # Thực hiện dự đoán
-        with torch.no_grad():
-            output = model(input_image)
-
-        # Lấy chỉ số có giá trị lớn nhất là nhãn dự đoán
-        predicted_class_idx = torch.argmax(output).item()
-
-        train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật/Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
-        # Lấy tên của nhãn dự đoán từ tập dữ liệu
-        predicted_label = train_dataset[predicted_class_idx]
-
-        return predicted_label
-    else:
-        return "No face detected."
-
-
-def predict_from_list(images):
-    predicted_labels = []
-    for image in images:
-
-
-        # Chuyển ảnh sang numpy array
-        image_np = np.array(image)
-
-        # Chuyển ảnh sang grayscale để sử dụng mô hình nhận diện khuôn mặt
-        gray = cv2.cvtColor(image_np, cv2.COLOR_RGB2GRAY)
-        try:
-            gray = Image.fromarray(gray)
-            input_image = transform(gray).unsqueeze(0)  # Thêm chiều batch (batch size = 1)
-
-            # Thực hiện dự đoán
-            with torch.no_grad():
-                output = model(input_image)
-
-            # Lấy chỉ số có giá trị lớn nhất là nhãn dự đoán
-            predicted_class_idx = torch.argmax(output).item()
-
-            train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật/Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
-            # Lấy tên của nhãn dự đoán từ tập dữ liệu
-            predicted_label = train_dataset[predicted_class_idx]
-
-            predicted_labels.append(predicted_label)
-        except:
-             predicted_labels.append("No face detected")
-
-    # Đếm số lần xuất hiện của mỗi nhãn dự đoán
-    label_counts = Counter(predicted_labels)
-
-    # Lấy nhãn có số lần xuất hiện nhiều nhất
-    most_common_label = label_counts.most_common(1)[0][0]
-
-    return most_common_label
-def main():
     # -------------Header Section------------------------------------------------
     # Haar-Cascade Parameters
     
@@ -322,12 +247,7 @@ def main():
                         "Only 1 face detected inside the image. Try adjusting minimum object size if we missed anything")
 
                 
-                # col1, col2, col3 = st.columns(3)
-                # with col1:
-                #     pass
-                # with col3:
-                #     pass
-                # with col2:
+              
                 if st.button("Predict"):
                    
                     predicted_label = predict_from_face_image(face_img )
@@ -351,38 +271,6 @@ def main():
             """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     
-    # ctx = webrtc_streamer(
-    #     key="snapshot",
-    #     mode=WebRtcMode.SENDRECV,
-    #     async_processing=True,
-    #     rtc_configuration={
-            
-    #         "iceServers": [{"urls": ["stun:stun.flashdance.cx:3478"]}],
-    #         # "iceServers": token.ice_servers
-    #         "iceTransportPolicy": "relay"
-    #     },
-    #     media_stream_constraints={"video": True, "audio": False},
-    #     video_processor_factory=VideoTransformer
-    # )
-    # if ctx.video_transformer:
-    #     if st.button("Predict"):
-    #         with ctx.video_transformer.frame_lock:
-
-    #             img_list = ctx.video_transformer.img_list
-
-    #         if img_list is not []:  # put in column form 5 images in a row
-    #             predicted_label = predict_from_list(img_list)
-    #             st.subheader("Hình Dạng Khuôn mặt:")
-    #             st.markdown(
-    #                 f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
-    #                 unsafe_allow_html=True)
-
-    #             st.markdown('**Ngành Nghề Phù Hợp:**')
-    #             for career in class_info[predicted_label]['careers']:
-    #                 st.markdown(f"- {career}")
-    #             st.markdown('**Đặc điểm tính cách:**')
-    #             st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
-    #         else:
-    #             st.warning("No faces available yet. Press predict again")
+  
 if __name__ == "__main__":
     main()
