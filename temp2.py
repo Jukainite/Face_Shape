@@ -236,7 +236,7 @@ def main():
         async_processing=True,
         rtc_configuration={
             
-            "iceServers": [{"urls": ["stun:stun.webcalldirect.com:3478"]}],
+            "iceServers": [{"urls": ["stun:stun4.l.google.com:19302"]}],
             # "iceServers": token.ice_servers
             "iceTransportPolicy": "relay"
         },
