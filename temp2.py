@@ -24,29 +24,7 @@ from twilio.rest import Client
 
 logger = logging.getLogger(__name__)
 @st.cache_data
-def get_ice_servers():
-    """Use Twilio's TURN server because Streamlit Community Cloud has changed
-    its infrastructure and WebRTC connection cannot be established without TURN server now.  # noqa: E501
-    We considered Open Relay Project (https://www.metered.ca/tools/openrelay/) too,
-    but it is not stable and hardly works as some people reported like https://github.com/aiortc/aiortc/issues/832#issuecomment-1482420656  # noqa: E501
-    See https://github.com/whitphx/streamlit-webrtc/issues/1213
-    """
 
-    # Ref: https://www.twilio.com/docs/stun-turn/api
-    try:
-        account_sid = os.environ["TWILIO_ACCOUNT_SID"]
-        auth_token = os.environ["TWILIO_AUTH_TOKEN"]
-    except KeyError:
-        logger.warning(
-            "Twilio credentials are not set. Fallback to a free STUN server from Google."  # noqa: E501
-        )
-        return [{"urls": ["stun:stun.l.google.com:19302"]}]
-
-    client = Client(account_sid, auth_token)
-
-    token = client.tokens.create()
-
-    return token.ice_servers
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 class_info = {
@@ -244,13 +222,12 @@ def main():
 
     # ctx = webrtc_streamer(key="snapshot", client_settings=WEBRTC_CLIENT_SETTINGS,video_processor_factory=VideoTransformer)
     # rtc_configuration = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-    # account_sid = os.environ['ACc4f7b8e2ac4c15f6ba35d671cc8af7e7']
-    # account_sid = 'ACc4f7b8e2ac4c15f6ba35d671cc8af7e7'
-    # # auth_token = os.environ['8f0500d3d531fcd5a0ee80ab31b21926']
-    # auth_token = '8f0500d3d531fcd5a0ee80ab31b21926'
-    # client = Client(account_sid, auth_token)
+    account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    client = Client(account_sid, auth_token)
     
-    # token = client.tokens.create()
+    token = client.tokens.create()
+
     media_stream_constraints = {"video": True, "audio": False}
     
     ctx = webrtc_streamer(
@@ -258,7 +235,7 @@ def main():
         mode=WebRtcMode.SENDRECV,
         rtc_configuration={
             # "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-            "iceServers": get_ice_servers
+            "iceServers": token.ice_servers
             # "iceTransportPolicy": "public",
         },
         media_stream_constraints=media_stream_constraints,
