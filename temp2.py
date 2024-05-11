@@ -90,6 +90,28 @@ transform = transforms.Compose([
 # Load mô hình nhận diện khuôn mặt
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+
+def predict_from_face_image(image):
+    
+   
+    # Áp dụng biến đổi cho ảnh khuôn mặt
+
+    input_image = transform(image).unsqueeze(0)  # Thêm chiều batch (batch size = 1)
+
+    # Thực hiện dự đoán
+    with torch.no_grad():
+        output = model(input_image)
+
+    # Lấy chỉ số có giá trị lớn nhất là nhãn dự đoán
+    predicted_class_idx = torch.argmax(output).item()
+
+    train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật/Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
+    # Lấy tên của nhãn dự đoán từ tập dữ liệu
+    predicted_label = train_dataset[predicted_class_idx]
+
+    return predicted_label
+  
+
 # Định nghĩa hàm dự đoán qua ảnh
 def predict_from_image(image):
     # Chuyển ảnh sang grayscale nếu cần thiết
@@ -312,7 +334,7 @@ def main():
                 with col2:
                     if st.button("Predict"):
                        
-                        predicted_label = predict_from_image(face_img )
+                        predicted_label = predict_from_face_image(face_img )
                         st.subheader("Hình Dạng Khuôn mặt:")
                         st.markdown(
                             f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
