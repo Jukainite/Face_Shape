@@ -182,15 +182,15 @@ def main():
         st.markdown(title, unsafe_allow_html=True)
         # slider for choosing parameter values
         minimum_neighbors = st.slider("Mininum Neighbors", min_value=0, max_value=10,
-                                      help="Tham số xác định số lượng lân cận mà mỗi hình chữ nhật ứng cử viên phải giữ lại."
-                                      "Thông số này sẽ ảnh hưởng đến chất lượng của khuôn mặt được phát hiện."
+                                      help="Tham số xác định số lượng lân cận mà mỗi hình chữ nhật ứng cử viên phải giữ lại. "
+                                      "Thông số này sẽ ảnh hưởng đến chất lượng của khuôn mặt được phát hiện. "
                                       "Giá trị cao hơn dẫn đến ít phát hiện hơn nhưng chất lượng cao hơn.",
                                       value=minimum_neighbors)
     
         # slider for choosing parameter values
     
         min_size = st.slider(f"Mininum Object Size, Eg-{min_object_size} pixels ", min_value=3, max_value=500,
-                             help="Minimum possible object size. Objects smaller than that are ignored.",
+                             help="Kích thước đối tượng tối thiểu có thể. Các đối tượng nhỏ hơn sẽ bị bỏ qua",
                              value=70)
     
         min_object_size = (min_size, min_size)
@@ -200,7 +200,7 @@ def main():
     
         # ste bbox thickness
         bbox_thickness = st.slider("Bounding Box Thickness", min_value=1, max_value=30,
-                                   help="Sets the thickness of bounding boxes",
+                                   help="Đặt độ dày của khung giới hạn",
                                    value=bbox_thickness)
     st.markdown(
         "Luư Ý Khi sử dụng:"
