@@ -1,2 +1,2 @@
-.env
-twilio.env
+*.env
+*twilio.env
