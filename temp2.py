@@ -182,10 +182,9 @@ def main():
         st.markdown(title, unsafe_allow_html=True)
         # slider for choosing parameter values
         minimum_neighbors = st.slider("Mininum Neighbors", min_value=0, max_value=10,
-                                      help="Parameter specifying how many neighbors each candidate "
-                                           "rectangle should have to retain it. This parameter will affect "
-                                           "the quality of the detected faces. Higher value results in less "
-                                           "detections but with higher quality.",
+                                      help="Tham số xác định số lượng lân cận mà mỗi hình chữ nhật ứng cử viên phải giữ lại."
+                                      "Thông số này sẽ ảnh hưởng đến chất lượng của khuôn mặt được phát hiện."
+                                      "Giá trị cao hơn dẫn đến ít phát hiện hơn nhưng chất lượng cao hơn.",
                                       value=minimum_neighbors)
     
         # slider for choosing parameter values
