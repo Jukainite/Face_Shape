@@ -297,6 +297,7 @@ elif option == "Image":
     image_file = st.file_uploader("Upload Image", type=['jpg', 'jpeg', 'png'])
     if image_file is not None:
         image = Image.open(image_file)
+        st.image(image)
         predicted_label = predict_from_image(image)
         if predicted_label != "No face detected.":
             # Chuyển đổi tên nhãn thành tên tệp hợp lệ
