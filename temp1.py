@@ -53,7 +53,7 @@ class_info = {
     }
 }
 model_path = r"face_shape_classifier.pth"
-train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật/Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
+train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật_Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
 
 class MyNormalize(object):
     def __init__(self, mean, std):
@@ -106,7 +106,7 @@ def predict_from_face_image(image):
     # Lấy chỉ số có giá trị lớn nhất là nhãn dự đoán
     predicted_class_idx = torch.argmax(output).item()
 
-    train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật/Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
+    train_dataset = {0: 'Khuôn mặt trái tim', 1: 'Khuôn mặt hình chữ nhật_Khuôn mặt dài', 2: 'Khuôn mặt trái xoan', 3: 'Khuôn mặt tròn', 4: 'Khuôn mặt vuông'}
     # Lấy tên của nhãn dự đoán từ tập dữ liệu
     predicted_label = train_dataset[predicted_class_idx]
 
@@ -258,10 +258,10 @@ def main():
                     
                     # Chuyển đổi tên nhãn thành tên tệp hợp lệ
                     filename = f"data/{predicted_label}.txt"
-                    sanitized_filename = re.sub(r'[\\/:"*?<>|]+', '_', filename)
+                    # sanitized_filename = re.sub(r'[\\/:"*?<>|]+', '_', filename)
                 
                     # Đọc nội dung từ tệp văn bản tương ứng
-                    content = read_file_content(sanitized_filename)
+                    content = read_file_content(filename)
     
                     # Hiển thị nhãn dự đoán
                     st.subheader("Hình Dạng Khuôn mặt:")
