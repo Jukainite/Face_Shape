@@ -264,13 +264,13 @@ def main():
                     content = read_file_content(filename)
     
                     # Hiển thị nhãn dự đoán
-                    st.subheader("Hình Dạng Khuôn mặt:")
                     st.markdown(
                         f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
                         unsafe_allow_html=True)
                 
                     # Hiển thị nội dung từ tệp văn bản
-                    st.markdown(content)
+                    st.markdown("**Thông tin chi tiết:**")
+                    st.text_area(" ", content, height=300)
                 
                     st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của thần số học ! ♥ ♥ ♥")
                         
