@@ -324,7 +324,7 @@ def main():
                 else:
                      st.warning(
                             "Không phát hiện thấy khuôn mặt nào trong ảnh. Đảm bảo khuôn mặt của bạn được nhìn thấy trong máy ảnh với ánh sáng thích hợp.\
-                            Bạn có thể thử đưa ảnh khác vào để kiểm tra"
+                            Bạn có thể thử đưa ảnh khác vào để kiểm tra")
                 
     
   
