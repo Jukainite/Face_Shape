@@ -299,32 +299,32 @@ def main():
                     """
             st.markdown(hide_streamlit_style, unsafe_allow_html=True)
         elif option == "Image":
-        st.write("Upload Image:")
-        image_file = st.file_uploader("Upload Image", type=['jpg', 'jpeg', 'png'])
-        if image_file is not None:
-            image = Image.open(image_file)
-            predicted_label = predict_from_image(image)
-            if predicted_label != "No face detected.":
-                # Chuyển đổi tên nhãn thành tên tệp hợp lệ
-                filename = f"data/{predicted_label}.txt"
-                # sanitized_filename = re.sub(r'[\\/:"*?<>|]+', '_', filename)
-            
-                # Đọc nội dung từ tệp văn bản tương ứng
-                content = read_file_content(filename)
-    
-                # Hiển thị nhãn dự đoán
-                st.markdown(
-                    f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
-                    unsafe_allow_html=True)
-            
-                # Hiển thị nội dung từ tệp văn bản
-                st.markdown("**Thông tin chi tiết:**")
-                st.text_area(" ", content, height=300)
-                st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của nhân tướng học ! ♥ ♥ ♥")
-            else:
-                 st.warning(
-                        "Không phát hiện thấy khuôn mặt nào trong ảnh. Đảm bảo khuôn mặt của bạn được nhìn thấy trong máy ảnh với ánh sáng thích hợp.\
-                        Bạn có thể thử đưa ảnh khác vào để kiểm tra"
+            st.write("Upload Image:")
+            image_file = st.file_uploader("Upload Image", type=['jpg', 'jpeg', 'png'])
+            if image_file is not None:
+                image = Image.open(image_file)
+                predicted_label = predict_from_image(image)
+                if predicted_label != "No face detected.":
+                    # Chuyển đổi tên nhãn thành tên tệp hợp lệ
+                    filename = f"data/{predicted_label}.txt"
+                    # sanitized_filename = re.sub(r'[\\/:"*?<>|]+', '_', filename)
+                
+                    # Đọc nội dung từ tệp văn bản tương ứng
+                    content = read_file_content(filename)
+        
+                    # Hiển thị nhãn dự đoán
+                    st.markdown(
+                        f"<p style='text-align:center; font-size:60px; color:blue'><strong>{predicted_label}</strong></p>",
+                        unsafe_allow_html=True)
+                
+                    # Hiển thị nội dung từ tệp văn bản
+                    st.markdown("**Thông tin chi tiết:**")
+                    st.text_area(" ", content, height=300)
+                    st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của nhân tướng học ! ♥ ♥ ♥")
+                else:
+                     st.warning(
+                            "Không phát hiện thấy khuôn mặt nào trong ảnh. Đảm bảo khuôn mặt của bạn được nhìn thấy trong máy ảnh với ánh sáng thích hợp.\
+                            Bạn có thể thử đưa ảnh khác vào để kiểm tra"
                 
     
   
