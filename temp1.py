@@ -126,7 +126,7 @@ def read_file_content(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         return file.read()
 def main():
-    st.title("Face Shape Prediction")
+    st.title("Nhân tướng học khuôn mặt")
 
     # Lựa chọn giữa webcam và tải ảnh
     option = st.radio("Choose prediction method:", ("Webcam", "Image"))
@@ -291,13 +291,7 @@ def main():
                         st.write("Để xem lí giải cụ thể, bạn hãy đăng kí gói vip của nhân tướng học ! ♥ ♥ ♥")
                             
     
-            hide_streamlit_style = """
-                    <style>
-                    #MainMenu {visibility: hidden;}
-                    footer {visibility: hidden;}
-                    </style>
-                    """
-            st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+            
         elif option == "Image":
             st.write("Upload Image:")
             image_file = st.file_uploader("Upload Image", type=['jpg', 'jpeg', 'png'])
