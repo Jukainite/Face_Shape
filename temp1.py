@@ -252,8 +252,8 @@ def main():
               
                 if st.button("Predict"):
                    
-                    predicted_label_idx = predict_from_face_image(face_img)
-                    predicted_label = train_dataset[predicted_label_idx]
+                    # predicted_label_idx = predict_from_face_image(face_img)
+                    predicted_label = predict_from_face_image(face_img)
                     
                     # Chuyển đổi tên nhãn thành tên tệp hợp lệ
                     filename = f"{data/predicted_label}.txt"
