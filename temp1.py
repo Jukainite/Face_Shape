@@ -256,7 +256,7 @@ def main():
                     predicted_label = train_dataset[predicted_label_idx]
                     
                     # Chuyển đổi tên nhãn thành tên tệp hợp lệ
-                    filename = f"{predicted_label}.txt"
+                    filename = f"{data/predicted_label}.txt"
                     sanitized_filename = re.sub(r'[\\/:"*?<>|]+', '_', filename)
                 
                     # Đọc nội dung từ tệp văn bản tương ứng
